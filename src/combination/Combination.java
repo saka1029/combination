@@ -1,6 +1,7 @@
 package combination;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -36,26 +37,28 @@ public class Combination {
 		}
 	}
 
-//	public static <T> Set<List<T>> allCombinations(List<T> elements) {
-//		Set<List<T>> result = new HashSet<>();
-//		for (int k = 1, size = elements.size(); k <= size; ++k)
-//			combination(elements, k, result);
-//		return result;
-//	}
-
-//	public static void testAllCombinations() {
-//		List<Character> elements = new ArrayList<>();
-//		for (char i = 'a'; i <= 'd'; ++i)
-//			elements.add(i);
-//		Set<List<Character>> result = allCombinations(elements);
-//		System.out.printf("size=%s result=%s%n", result.size(), result);
-//	}
+	static <T> void fold(List<T> list, List<T> folded, List<Integer> count) {
+		folded.clear();
+		count.clear();
+		for (T e : list) {
+			int i = folded.indexOf(e);
+			if (i == -1) {
+				folded.add(e);
+				count.add(1);
+			} else
+				count.set(i, count.get(i) + 1);
+		}
+		
+	}
 
 	public static void testCombination() {
-		List<Character> elements = new ArrayList<>();
-		for (char i = 'a'; i <= 'y'; ++i)
-			elements.add(i);
-		combination(elements, 5, x -> { System.out.println(x); });
+		List<Integer> elements = Arrays.asList(1, 1, 2, 3);
+		List<Integer> folded = new ArrayList<>();
+		List<Integer> count = new ArrayList<>();
+		fold(elements, folded, count);
+		System.out.printf("elements = %s folded = %s count=%s%n", elements, folded, count);
+		for (int i = 1, max  = elements.size(); i <= max; ++i)
+            combination(elements, i, x -> { System.out.println(x); });
 	}
 		
 	public static void main(String[] args){
